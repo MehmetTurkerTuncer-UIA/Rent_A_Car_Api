@@ -51,8 +51,8 @@ module.exports = {
       req.body.userId = req.user.id; // Automatically set userId to the logged-in user's IDelse
     }
 
-    req.body.createdId = req.user.id; // Set createdId to the logged-in user's ID
-    req.body.updatedId = req.user.id; // Set updatedId to the logged-in user's
+    req.body.createdId = req.user._id; // Set createdId to the logged-in user's ID
+    req.body.updatedId = req.user._id; // Set updatedId to the logged-in user's
 
     const data = await Reservation.create(req.body);
 
