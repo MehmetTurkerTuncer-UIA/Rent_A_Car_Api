@@ -41,6 +41,8 @@ const document = {
 	definitions: {
 		// Models:
 		"User": require('./src/models/user').schema.obj,
+		"Car": require('./src/models/car').schema.obj,
+		"Brand": require('./src/models/brand').schema.obj,
 	}
 }
 

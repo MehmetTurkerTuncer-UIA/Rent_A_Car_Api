@@ -2,6 +2,16 @@
 /* -------------------------------------------------------
     | FULLSTACK TEAM | NODEJS / EXPRESS |
 ------------------------------------------------------- */
+/*
+    $ cp .env-sample .env
+    $ npm init -y
+    $ npm i express dotenv mongoose express-async-errors
+    $ npm i morgan swagger-autogen swagger-ui-express redoc-express
+    $ nodemon
+*/
+
+
+
 const express = require("express");
 const app = express();
 
