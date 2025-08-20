@@ -13,6 +13,7 @@
 /* ------------------------------------------------------- */
 
 const { mongoose } = require("../configs/dbConnection");
+const emailValidation = require("../helpers/emailValidation");
 const passwordEncrypt = require("../helpers/passwordEncrypt");
 const uniqueValidator = require("mongoose-unique-validator");
 // User Model:
@@ -39,12 +40,8 @@ const UserSchema = new mongoose.Schema(
       required: [true, "An Email address is required"],
       unique: [true, "There is this email. Email field must be unique"],
       validate: [
-        (email) => {
-          const regexEmailCheck =
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-          return regexEmailCheck.test(email);
-        },
-        "Email format is not valid",
+        (email) => emailValidation(email),
+                "Email format is not valid",
       ],
     },
 
