@@ -19,7 +19,7 @@ module.exports = {
                 </ul>
             `
         */
-    const data = await res.getModelList(Car,{isAvailable:true} );
+    const data = await res.getModelList(Car, { isAvailable: true });
 
     res.status(200).send({
       error: false,
@@ -41,7 +41,6 @@ module.exports = {
             }
         */
     req.body.createdId = req.user.id; //? Created by user
-    req.body.updateId = req.user.id; //? Updated by user   
     const data = await Car.create(req.body);
 
     res.status(201).send({
@@ -56,7 +55,7 @@ module.exports = {
             #swagger.summary = "Get Single Car"
         */
 
-    const data = await Car.findOne({ customFilter });
+    const data = await Car.findOne({ _id: req.params.id });
 
     res.status(200).send({
       error: false,
@@ -77,7 +76,9 @@ module.exports = {
             }
         */
 
-    const data = await Car.updateOne(customFilter, req.body, {
+    req.body.updateId = req.user.id; //? Updated by user
+
+    const data = await Car.updateOne({ _id: req.params._id }, req.body, {
       runValidators: true,
     });
 
