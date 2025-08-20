@@ -19,7 +19,13 @@ module.exports = {
                 </ul>
             `
         */
-    const data = await res.getModelList(Reservation, customFilter );
+
+    let customFilter = {};
+    if (!req.user.isAdmin && !req.user.isStaff) {
+      customFilter = { userId: req.user.id }; // Only show reservations for the logged-in user
+    }
+    
+    const data = await res.getModelList(Reservation, customFilter);
 
     res.status(200).send({
       error: false,
@@ -40,6 +46,14 @@ module.exports = {
                 }
             }
         */
+
+    if (!req.user.isAdmin && !req.user.isStaff) {
+      req.body.userId = req.user.id; // Automatically set userId to the logged-in user's IDelse
+    }
+
+    req.body.createdId = req.user.id; // Set createdId to the logged-in user's ID
+    req.body.updatedId = req.user.id; // Set updatedId to the logged-in user's
+
     const data = await Reservation.create(req.body);
 
     res.status(201).send({
@@ -53,8 +67,11 @@ module.exports = {
             #swagger.tags = ["Reservations"]
             #swagger.summary = "Get Single Reservation"
         */
+    if (!req.user.isAdmin && !req.user.isStaff) {
+      req.body.userId = req.user.id; // Automatically set userId to the logged-in user's IDelse
+    }
 
-    const data = await Reservation.findOne({ customFilter });
+    const data = await Reservation.findOne({ _id:req.params.id , ...customFilter });
 
     res.status(200).send({
       error: false,
@@ -75,6 +92,10 @@ module.exports = {
             }
         */
 
+    if (!req.user.isAdmin) {
+      delete req.body.userId; // Prevent non-admin users from updating userId
+    }
+    req.body.updatedId = req.user.id; // Set updatedId to the logged-in user's ID
     const data = await Reservation.updateOne(customFilter, req.body, {
       runValidators: true,
     });
